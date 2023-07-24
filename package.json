@@ -5,9 +5,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "go run ./cmd/container/docker/main.go",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "go test ./...",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.0"
+  }
 }
