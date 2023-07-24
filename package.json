@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "commitlint": "^17.6.7",
     "husky": "^8.0.0"
   }
 }
