@@ -2,7 +2,10 @@ package container
 
 import (
 	"context"
+	"encoding/base64"
+	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 
@@ -127,6 +130,62 @@ func (d *Docker) Validate() error {
 	if d.ImageName == "" {
 		return errors.New("image name is required")
 	}
+
+	return nil
+}
+
+func (d *Docker) PullImageWithAuthentication(ctx context.Context, imageName, username, password string) error {
+	authConfig := types.AuthConfig{
+		Username: username,
+		Password: password,
+	}
+	encodedJSON, err := json.Marshal(authConfig)
+	if err != nil {
+		return err
+	}
+	authStr := base64.URLEncoding.EncodeToString(encodedJSON)
+	options := types.ImagePullOptions{
+		RegistryAuth: authStr,
+	}
+	out, err := d.client.ImagePull(ctx, imageName, options)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+	io.Copy(os.Stdout, out)
+
+	return nil
+}
+
+func (d *Docker) CommitAcontainer(ctx context.Context, imageName, username, password string) error {
+	createResp, err := d.client.ContainerCreate(ctx, &container.Config{
+		Image: "alpine",
+		Cmd:   []string{"touch", "/helloworld"},
+	}, nil, nil, nil, "")
+	if err != nil {
+		return err
+	}
+
+	if err := d.client.ContainerStart(ctx, createResp.ID, types.ContainerStartOptions{}); err != nil {
+		return err
+	}
+
+	statusCh, errCh := d.client.ContainerWait(ctx, createResp.ID, container.WaitConditionNotRunning)
+	select {
+	case err := <-errCh:
+		if err != nil {
+			return err
+		}
+	case <-statusCh:
+	}
+
+	commitResp, err := d.client.ContainerCommit(ctx, createResp.ID, types.ContainerCommitOptions{Reference: "helloworld"})
+
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(commitResp.ID)
 
 	return nil
 }
