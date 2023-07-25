@@ -1,5 +1,7 @@
 package entity
 
+import "errors"
+
 type ContainerNetwork struct {
 	NetworkID string
 	Name      string
@@ -13,4 +15,17 @@ func NewContainerNetwork(name string, driver string, scope string) *ContainerNet
 		Driver: driver,
 		Scope:  scope,
 	}
+}
+
+func (cn *ContainerNetwork) Validate() error {
+	if cn.Name == "" {
+		return errors.New("name is required")
+	}
+	if cn.Driver == "" {
+		return errors.New("driver is required")
+	}
+	if cn.Scope == "" {
+		return errors.New("scope is required")
+	}
+	return nil
 }
