@@ -18,3 +18,10 @@ go mod tidy
 ```shell
 npm run dev
 ```
+
+```shell
+# install
+apt install -y git-lfs
+git lfs install
+npm install -g @commitlint/cli @commitlint/config-conventional
+```

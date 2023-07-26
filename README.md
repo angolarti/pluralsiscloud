@@ -15,7 +15,19 @@ A Pluralcloud é uma solução de cloud privada desenvolvida especialmente para 
 
 ## Objetivo
 
+<<<<<<< HEAD
 O objetivo principal da Pluralcloud é fornecer um ambiente de cloud privada altamente customizável e escalável, onde desenvolvedores, engenheiros e entusiastas de TI podem criar e testar seus projetos, experimentar com diferentes stacks tecnológicos e adquirir experiência prática sem a preocupação com a infraestrutura subjacente.
+=======
+```shell
+# install apt install -y git-lfs
+git lfs install
+npm install -g @commitlint/cli @commitlint/config-conventional
+```
+
+```shell
+git clone -b develop https://github.com/angolarti/pluralsiscloud.git
+```
+>>>>>>> feature/docker
 
 ## Recursos Principais
 

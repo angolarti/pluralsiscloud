@@ -2,12 +2,9 @@ package entity
 
 import (
 	"errors"
-
-	"github.com/google/uuid"
 )
 
 type Container struct {
-	ID          uuid.UUID
 	ContainerID string
 	Image       string
 	Created     string
@@ -17,11 +14,11 @@ type Container struct {
 	Command     []string
 }
 
-func NewContainer(name string, image string, port int, command []string) *Container {
+func NewContainer(image string, name string, port int, command []string) *Container {
 
 	return &Container{
-		Name:    name,
 		Image:   image,
+		Name:    name,
 		Port:    port,
 		Command: command,
 	}

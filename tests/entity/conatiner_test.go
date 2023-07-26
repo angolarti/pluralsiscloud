@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"github/angolarti/pluralcloud/internal/entity"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,7 +13,7 @@ func TestNewContainer(t *testing.T) {
 	port := 8080
 	command := []string{"echo", "hello world"}
 
-	container := NewContainer(name, image, port, command)
+	container := entity.NewContainer(image, name, port, command)
 
 	assert.Equal(t, name, container.Name)
 	assert.Equal(t, image, container.Image)
@@ -26,7 +27,7 @@ func TestContainer_Validate(t *testing.T) {
 	port := 8080
 	command := []string{"echo", "hello world"}
 
-	container := NewContainer(name, image, port, command)
+	container := entity.NewContainer(image, name, port, command)
 
 	err := container.Validate()
 	assert.Nil(t, err)
@@ -37,7 +38,7 @@ func TestContainer_Validate_Invalid(t *testing.T) {
 	port := 8080
 	command := []string{"echo", "hello world"}
 
-	container := NewContainer(name, "", port, command)
+	container := entity.NewContainer("", name, port, command)
 
 	err := container.Validate()
 	assert.NotNil(t, err)
