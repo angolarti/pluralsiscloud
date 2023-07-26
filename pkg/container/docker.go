@@ -2,42 +2,34 @@ package container
 
 import (
 	"context"
-	"errors"
 	"io"
 	"os"
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
-	"github.com/docker/docker/api/types/strslice"
 	"github.com/docker/docker/client"
-	"github.com/docker/docker/pkg/stdcopy"
 )
 
 type Docker struct {
-	context   context.Context
-	client    client.Client
-	ImageName string
-	Hostname  string
-	Command   strslice.StrSlice
+	ctx    context.Context
+	cli    *client.Client
+	config Config
 }
 
-func NewDocker(ctx context.Context, cli *client.Client, imageName string, command strslice.StrSlice) *Docker {
+func NewDocker(ctx context.Context, cli *client.Client, config Config) *Docker {
 	return &Docker{
-		context:   ctx,
-		client:    *cli,
-		ImageName: imageName,
-		Command:   command,
+		ctx:    ctx,
+		cli:    cli,
+		config: config,
 	}
 }
 
-func (d *Docker) Run() (container.CreateResponse, error) {
+func (dc *Docker) Run(image string, command []string) (container.CreateResponse, error) {
 
-	d.Validate()
-
-	d.Pull(d.context, d.client, d.ImageName)
-	resp, err := d.client.ContainerCreate(d.context, &container.Config{
-		Image: d.ImageName,
-		Cmd:   d.Command,
+	dc.Pull(dc.config.Image)
+	resp, err := dc.cli.ContainerCreate(dc.ctx, &container.Config{
+		Image: image,
+		Cmd:   command,
 		Tty:   false,
 	}, nil, nil, nil, "")
 
@@ -45,20 +37,20 @@ func (d *Docker) Run() (container.CreateResponse, error) {
 		panic(err)
 	}
 
-	if err := d.client.ContainerStart(d.context, resp.ID, types.ContainerStartOptions{}); err != nil {
+	if err := dc.cli.ContainerStart(dc.ctx, resp.ID, types.ContainerStartOptions{}); err != nil {
 		panic(err)
 	}
 
 	return resp, nil
 }
 
-func (d *Docker) Start(containerID string) error {
+func (dc *Docker) Start(containerID string) error {
 
-	if err := d.client.ContainerStart(d.context, containerID, types.ContainerStartOptions{}); err != nil {
+	if err := dc.cli.ContainerStart(dc.ctx, containerID, types.ContainerStartOptions{}); err != nil {
 		panic(err)
 	}
 
-	statusCh, errCh := d.client.ContainerWait(d.context, containerID, container.WaitConditionNotRunning)
+	statusCh, errCh := dc.cli.ContainerWait(dc.ctx, containerID, container.WaitConditionNotRunning)
 
 	select {
 	case err := <-errCh:
@@ -71,26 +63,20 @@ func (d *Docker) Start(containerID string) error {
 	return nil
 }
 
-// TODO:
-
-// Pull an image with authentication
-
-// Commit a containe
-
-func (d *Docker) Logs(containerID string) {
-	out, err := d.client.ContainerLogs(d.context, containerID, types.ContainerLogsOptions{ShowStdout: true})
+func (dc *Docker) Logs(containerID string) {
+	_, err := dc.cli.ContainerLogs(dc.ctx, containerID, types.ContainerLogsOptions{ShowStdout: true})
 
 	if err != nil {
 		panic(err)
 	}
 
-	stdcopy.StdCopy(os.Stdout, os.Stderr, out)
+	// std.copy.StdC.configopy(os.Stdout, os.Stderr, out)
 }
 
-func (d *Docker) List() ([]types.Container, error) {
-	defer d.client.Close()
+func (dc *Docker) List() ([]types.Container, error) {
+	defer dc.cli.Close()
 
-	containers, err := d.client.ContainerList(d.context, types.ContainerListOptions{})
+	containers, err := dc.cli.ContainerList(dc.ctx, types.ContainerListOptions{})
 
 	if err != nil {
 		panic(err)
@@ -99,22 +85,21 @@ func (d *Docker) List() ([]types.Container, error) {
 	return containers, nil
 }
 
-func (d *Docker) ListAllImages() ([]types.ImageSummary, error) {
-	defer d.client.Close()
+func (dc *Docker) ListAllImages() ([]types.ImageSummary, error) {
+	defer dc.cli.Close()
 
-	images, err := d.client.ImageList(d.context, types.ImageListOptions{})
+	images, err := dc.cli.ImageList(dc.ctx, types.ImageListOptions{})
 
 	if err != nil {
 		panic(err)
 	}
 
 	return images, nil
-
 }
 
-func (d *Docker) Pull(ctx context.Context, cli client.Client, imageName string) {
+func (dc *Docker) Pull(imageName string) {
 
-	out, err := cli.ImagePull(ctx, imageName, types.ImagePullOptions{})
+	out, err := dc.cli.ImagePull(dc.ctx, imageName, types.ImagePullOptions{})
 	if err != nil {
 		panic(err)
 	}
@@ -122,11 +107,8 @@ func (d *Docker) Pull(ctx context.Context, cli client.Client, imageName string) 
 	io.Copy(os.Stdout, out)
 }
 
-func (d *Docker) Validate() error {
+// TODO:
 
-	if d.ImageName == "" {
-		return errors.New("image name is required")
-	}
+// Pull an image with authentication
 
-	return nil
-}
+// Commit a containe

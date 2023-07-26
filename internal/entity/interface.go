@@ -1,6 +1,6 @@
 package entity
 
 type ContainerInterface interface {
-	Create(oc *Container) error
+	Run(c *Container) (string, error)
 	List(c *Container) ([]string, error)
 }
