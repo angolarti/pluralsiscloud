@@ -21,17 +21,17 @@ func main() {
 
 	image := flag.String("image", "alpine:latest", "Image name")
 	port := flag.Int("port", 0, "Port")
-	println(port)
+	fmt.Println("Port:", *port)
 
 	// const image = "docker.io/library/nginx"
 	command := []string{"echo", "hello world"}
 	flag.Parse()
 
-	println(flag.Args())
+	fmt.Println("Command Args:", flag.Args())
 
 	dc := container.NewDocker(ctx, cli, *image, command)
 	dc.ImageName = *image
-	fmt.Println(dc.ImageName)
+	fmt.Println("Image Name:", dc.ImageName)
 	resp, err := dc.Run()
 	// containres, err := dc.List()
 
@@ -39,6 +39,8 @@ func main() {
 		panic(err)
 	}
 	fmt.Println("Container com ID", resp.ID)
+
+	// Resto do código...
 
 	// for _, container := range containres {
 	// 	fmt.Println("Container ID: ", container.ID, "Names: ", container.Names[0], "Status: ", container.Status)
@@ -54,5 +56,4 @@ func main() {
 	// for _, image := range images {
 	// 	fmt.Println(image.ID)
 	// }
-
 }
