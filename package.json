@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "go run ./cmd/container/docker/main.go",
     "test": "go test ./...",
+    "build": "CGO_ENABLED=0 COS=linux go build -ldflags=\"-w -s\" -o pcloud cmd/container/main.go",
+    "install": "npm run build && sudo cp pcloud /usr/local/bin/",
     "prepare": "husky install"
   },
   "keywords": [],
