@@ -33,7 +33,7 @@ Para utilizar A Pluralcloud, siga os passos abaixo:
 
 1. Faça um Fork deste repositório ou faça o Download do código-fonte.
 
-2. Siga as instruções de instalação e configuração disponíveis no arquivo [INSTALACAO.md](link_para_arquivo_instalacao.md).
+2. Siga as instruções de instalação e configuração disponíveis no arquivo [INSTALACAO.md](https://github.com/angolarti/pluralsiscloud/blob/develop/INSTALACAO.md).
 
 3. Depois de configurar A Pluralcloud, acesse o painel de controle e inicie suas instâncias personalizadas.
 
@@ -41,7 +41,7 @@ Para utilizar A Pluralcloud, siga os passos abaixo:
 
 ## Contribuindo
 
-Nós acreditamos no poder da colaboração e da comunidade, e ficaremos felizes em receber suas contribuições para melhorar A Pluralcloud. Se você encontrar bugs, tiver ideias de novos recursos ou quiser corrigir qualquer coisa no projeto, por favor, siga nossas diretrizes de contribuição no arquivo [CONTRIBUTING.md](link_para_arquivo_contributing.md).
+Nós acreditamos no poder da colaboração e da comunidade, e ficaremos felizes em receber suas contribuições para melhorar A Pluralcloud. Se você encontrar bugs, tiver ideias de novos recursos ou quiser corrigir qualquer coisa no projeto, por favor, siga nossas diretrizes de contribuição no arquivo [CONTRIBUTING.md](https://github.com/angolarti/pluralsiscloud/blob/develop/CONTRIBUTING.md).
 
 ## Suporte
 
