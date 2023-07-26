@@ -11,6 +11,12 @@
 ## Setup
 
 ```shell
+# install apt install -y git-lfs
+git lfs install
+npm install -g @commitlint/cli @commitlint/config-conventional
+```
+
+```shell
 git clone -b develop https://github.com/angolarti/pluralsiscloud.git
 ```
 
