@@ -1,4 +1,4 @@
-package dockerk
+package docker
 
 // import (
 // 	"context"

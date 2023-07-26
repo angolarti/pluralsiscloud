@@ -1,0 +1,13 @@
+###
+POST http://localhost:8888/container
+Content-Type: application/json
+
+{
+   "image": "nginx",
+	"name": "webserver",
+	"port": 80,
+	"command": []
+}
+
+####
+GET http://localhost:8888/container

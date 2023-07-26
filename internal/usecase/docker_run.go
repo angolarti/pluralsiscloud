@@ -16,6 +16,8 @@ type ContainerOutput struct {
 	Image       string
 	Port        int
 	Name        string
+	PrivatePort int
+	PublicPort  int
 	Command     []string
 }
 
