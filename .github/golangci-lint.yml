@@ -1,7 +1,7 @@
-name: golangci-lint-pluralcloud
+name: ci-lint-pluralcloud
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 permissions:
   contents: read
