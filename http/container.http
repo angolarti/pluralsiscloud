@@ -1,5 +1,5 @@
 ###
-POST http://localhost:8888/container
+POST http://localhost:5000/container
 Content-Type: application/json
 
 {
@@ -10,4 +10,8 @@ Content-Type: application/json
 }
 
 ####
-GET http://localhost:8888/container
+GET http://localhost:5000/containers
+
+
+###
+GET http://localhost:5000
