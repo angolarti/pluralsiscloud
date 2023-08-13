@@ -22,7 +22,7 @@ func main() {
 
 	docker := de.NewDocker(ctx, cli, *config)
 	dockerEngine := dockerengine.NewDockerEngine(docker)
-	us := usecase.NewDockerRun(dockerEngine)
+	us := usecase.NewDockerRunUsecase(dockerEngine)
 
 	var input usecase.ContainerInput
 
