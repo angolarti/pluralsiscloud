@@ -25,7 +25,7 @@ type DockerRun struct {
 	Container entity.ContainerInterface // implement
 }
 
-func NewDockerRun(container entity.ContainerInterface) *DockerRun {
+func NewDockerRunUsecase(container entity.ContainerInterface) *DockerRun {
 	return &DockerRun{
 		Container: container,
 	}
