@@ -1,8 +1,7 @@
 package router
 
 import (
-	controllers "github/angolarti/pluralcloud/cmd/api/container/controller/create"
-	list "github/angolarti/pluralcloud/cmd/api/container/controller/list"
+	controllers "github/angolarti/pluralcloud/cmd/api/container/controller"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -10,7 +9,7 @@ import (
 func ContainerRouter(r chi.Router) chi.Router {
 
 	r.Post("/container", controllers.CreateContainer)
-	r.Get("/containers", list.ListContainer)
+	r.Get("/containers", controllers.ListContainer)
 
 	return r
 
