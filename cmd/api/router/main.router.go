@@ -12,9 +12,12 @@ type WelcomeResponse struct {
 }
 
 func Home(app chi.Router) {
-
 	app.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello welcome to Plural Cloud!"))
+		_, err := w.Write([]byte("Hello welcome to Plural Cloud!"))
+		if err != nil {
+			http.Error(w, "Failed to write response", http.StatusInternalServerError)
+			return
+		}
 	})
 
 }

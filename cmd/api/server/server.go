@@ -19,6 +19,11 @@ func NewServer(router chi.Router) *Server {
 
 func (server *Server) Start() error {
 	router.SetupRouter(server.Router)
-	return http.ListenAndServe(":5000", server.Router)
+
+	err := http.ListenAndServe(":5000", server.Router)
+	if err != nil {
+		return err
+	}
+	return nil
 
 }
